@@ -18,14 +18,23 @@ public class Person {
     private String employeeID;
     private LocalDate birthDate;
     private LocalDate hireDate;
+    
+    public Person () {
+        this.firstName = "";
+        this.middleName = "";
+        this.lastName = "";
+        this.employeeID = "";
+        this.birthDate = null;
+        this.hireDate = null; 
+    }
 
     public Person (String firstName, String middleName, String lastName, String employeeID, LocalDate birthDate, LocalDate hireDate) {
-        this.firstName=firstName;
-        this.middleName=middleName;
-        this.lastName=lastName;
-        this.employeeID=employeeID;
-        this.birthDate=birthDate;
-        this.hireDate=hireDate;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.employeeID = employeeID;
+        this.birthDate = birthDate;
+        this.hireDate = hireDate;
     }
     /**
      * @return the firstName
