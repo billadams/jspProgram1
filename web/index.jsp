@@ -11,31 +11,47 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+        <link rel="stylesheet" href="styles/bootstrap.css" type="text/css"/>
         <title>Employee List</title>
     </head>
     <body>
-        <h1>Employee List</h1>
+        <div class="container">
+            <h1>Employee List</h1>
 
-        <table>
-            <tr>
-                <th>First Name</th>
-                <th>Middle Initial</th>
-                <th>Last Name</th>
-                <th>Employee ID</th>
-                <th>Birth Date</th>
-                <th>Hire Date</th>
-            </tr>
-            <c:forEach var="employee" items="${employees}">
-                <tr>
-                    <td>${employee.firstName}</td>
-                    <td>${employee.middleName}</td>
-                    <td>${employee.lastName}</td>
-                    <td>${employee.employeeID}</td>
-                    <td>${employee.birthDate}</td>
-                    <td>${employee.hireDate}</td>
-                </tr>
-            </c:forEach>
-        </table>
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Middle Initial</th>
+                                <th>Last Name</th>
+                                <th>Employee ID</th>
+                                <th>Birth Date</th>
+                                <th>Hire Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="employee" items="${employees}">
+                                <tr>
+                                    <td>${employee.firstName}</td>
+                                    <td>${employee.middleName}</td>
+                                    <td>${employee.lastName}</td>
+                                    <td>${employee.employeeID}</td>
+                                    <td>${employee.birthDate}</td>
+                                    <td>${employee.hireDate}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <form action="EmployeeListServlet" method="post">
+                        
+                        
+                    </form>
+                </div>
+            </div> <!-- end row -->
+        </div> <!-- end container -->
     </body>
 </html>
