@@ -17,7 +17,12 @@
     <body>
         <div class="container">
             <h1>Employee List</h1>
-
+            <c:if test="${searchDateFormatted != null}">
+                <div class="alert alert-success" role="alert">
+                    You searched for employees hired ${searchCriteria} ${searchDateFormatted}.
+                </div>
+            </c:if>
+            
             <div class="row">
                 <div class="col-md-8">
                     <table class="table table-bordered table-striped">
@@ -32,7 +37,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="employee" items="${employees}">
+                            <c:forEach var="employee" items="${employeeList}">
                                 <tr>
                                     <td>${employee.firstName}</td>
                                     <td>${employee.middleName}</td>
@@ -47,8 +52,24 @@
                 </div>
                 <div class="col-md-4">
                     <form action="EmployeeListServlet" method="post">
-                        
-                        
+                        <input type="hidden" name="action" value="searchRequest">
+                        <div class="form-group">
+                            <label for="select-hire-date">Search hire date</label>
+                            <input type="date" name="searchDate" class="form-control" id="select-hire-date">
+                        </div>
+                        <div class="radio">
+                            <label for="before-date">
+                                <input type="radio" name="optionsDate" id="before-date" value="before" checked>Before selected date
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label for="after-date">
+                                <input type="radio" name="optionsDate" id="after-date" value="after">After selected date
+                            </label>
+                        </div>
+
+                        <input type="submit" value="Search">
+                        <input type="reset">
                     </form>
                 </div>
             </div> <!-- end row -->

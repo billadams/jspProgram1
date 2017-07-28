@@ -5,9 +5,13 @@
  */
 package controller;
 
+import business.EmployeeManager;
 import business.Person;
 import data.EmployeeManagerDA;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,11 +39,35 @@ public class EmployeeListServlet extends HttpServlet {
         
         String url = "/index.jsp";
         
-        ArrayList<Person> employees = new ArrayList<Person>();
-        employees = EmployeeManagerDA.getAllEmployees();
+        // Get the current action
+        String action = request.getParameter("action");
+        if (action == null) {
+            // The default action
+            action = "defaultList";
+        }
         
-        HttpSession session = request.getSession();
-        session.setAttribute("employees", employees);
+        // Set up the default list of employees.
+        EmployeeManager allEmployees = new EmployeeManager();
+        ArrayList<Person> employeeList = new ArrayList<Person>();
+        employeeList = allEmployees.getEmployees();
+        
+        if (action.equals("defaultList")) {
+            url = "/index.jsp";
+        }
+        else if (action.equals("searchRequest")) {    
+            String hireDateString = request.getParameter("searchDate");
+            LocalDate hireDate = LocalDate.parse(hireDateString);
+            String searchCriteria = request.getParameter("optionsDate");
+            employeeList = allEmployees.search(hireDate, searchCriteria);
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+            String searchDateFormatted = dtf.format(hireDate);
+            
+            request.setAttribute("searchCriteria", searchCriteria);
+            request.setAttribute("searchDateFormatted", searchDateFormatted);
+        }
+        
+        request.setAttribute("employeeList", employeeList);
         
         this.getServletContext().getRequestDispatcher(url)
         .forward(request, response);

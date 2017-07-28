@@ -35,11 +35,23 @@ public class EmployeeManager {
         this.employees = employees;
     }
 
-    public ArrayList<Person> search(LocalDate searchDate) {
+    public ArrayList<Person> search(LocalDate searchDate, String searchCriteria) {
         ArrayList<Person> temp = new ArrayList<Person>();
 
-        //
-        temp.add(employees.get(0));
+        if (searchCriteria.equals("before")) {
+            for (int i = 0; i < employees.size(); i++) {
+                if (employees.get(i).getHireDate().isBefore(searchDate)) {
+                    temp.add(employees.get(i));
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < employees.size(); i++) {
+                if (employees.get(i).getHireDate().isAfter(searchDate)) {
+                    temp.add(employees.get(i));
+                }
+            }
+        }
 
         return temp;
     }
