@@ -6,6 +6,7 @@
 package business;
 
 import data.EmployeeManagerDA;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author fssco
  */
-public class EmployeeManager {
+public class EmployeeManager implements Serializable {
 
     private ArrayList<Person> employees;
 
@@ -35,6 +36,12 @@ public class EmployeeManager {
         this.employees = employees;
     }
 
+    /**
+     * 
+     * @param searchDate
+     * @param searchCriteria 
+     * @return 
+     */
     public ArrayList<Person> search(LocalDate searchDate, String searchCriteria) {
         ArrayList<Person> temp = new ArrayList<Person>();
 

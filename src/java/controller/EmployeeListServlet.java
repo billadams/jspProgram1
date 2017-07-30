@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import util.DateUtil;
 
 /**
  *
@@ -57,9 +58,13 @@ public class EmployeeListServlet extends HttpServlet {
         else if (action.equals("searchRequest")) {    
             String hireDateString = request.getParameter("searchDate");
             LocalDate hireDate = LocalDate.parse(hireDateString);
+            
+            // Override the default list of employees to reflect the 
+            // search criteria the user selected from the form.
             String searchCriteria = request.getParameter("optionsDate");
             employeeList = allEmployees.search(hireDate, searchCriteria);
 
+            // Formate the date for output.
             DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
             String searchDateFormatted = dtf.format(hireDate);
             
@@ -67,6 +72,15 @@ public class EmployeeListServlet extends HttpServlet {
             request.setAttribute("searchDateFormatted", searchDateFormatted);
         }
         
+        // Get a count of all employees that are in the employeeList.
+        String listCount = String.valueOf(employeeList.size());
+        
+        // Get today's date to set the default value of the date input.
+        LocalDate today = DateUtil.getDateToday();
+        String todayString = DateUtil.formatDateToString(today);
+        
+        request.setAttribute("listCount", listCount);
+        request.setAttribute("todayString", todayString);
         request.setAttribute("employeeList", employeeList);
         
         this.getServletContext().getRequestDispatcher(url)

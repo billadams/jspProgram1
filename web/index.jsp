@@ -19,7 +19,8 @@
             <h1>Employee List</h1>
             <c:if test="${searchDateFormatted != null}">
                 <div class="alert alert-success" role="alert">
-                    You searched for employees hired ${searchCriteria} ${searchDateFormatted}.
+                    <p>Showing all employees hired ${searchCriteria} ${searchDateFormatted}.</p>
+                    <p>Records found: ${listCount}</p>
                 </div>
             </c:if>
             
@@ -55,7 +56,7 @@
                         <input type="hidden" name="action" value="searchRequest">
                         <div class="form-group">
                             <label for="select-hire-date">Search hire date</label>
-                            <input type="date" name="searchDate" class="form-control" id="select-hire-date">
+                            <input type="date" name="searchDate" class="form-control" id="select-hire-date" value="${todayString}">
                         </div>
                         <div class="radio">
                             <label for="before-date">

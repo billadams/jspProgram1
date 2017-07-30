@@ -5,13 +5,14 @@
  */
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author fssco
  */
-public class Person {
+public class Person implements Serializable {
     private String firstName;
     private String middleName;
     private String lastName;
