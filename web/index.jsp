@@ -24,6 +24,18 @@
                 </div>
             </c:if>
             
+            <c:if test="${messages != null}">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <!--<span>Error:</span>-->
+                    <c:forEach var="message" items="${messages}">
+                        <ul>
+                            <li>${message}</li>
+                        </ul>
+                    </c:forEach>
+                </div>
+            </c:if>  
+            
             <div class="row">
                 <div class="col-md-8">
                     <table class="table table-bordered table-striped">
@@ -44,8 +56,8 @@
                                     <td>${employee.middleName}</td>
                                     <td>${employee.lastName}</td>
                                     <td>${employee.employeeID}</td>
-                                    <td>${employee.birthDate}</td>
-                                    <td>${employee.hireDate}</td>
+                                    <td>${employee.birthDateFormatted}</td>
+                                    <td>${employee.hireDateFormatted}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>

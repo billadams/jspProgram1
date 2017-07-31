@@ -7,6 +7,7 @@ package business;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -119,6 +120,19 @@ public class Person implements Serializable {
      */
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
+    }
+    
+    public String getBirthDateFormatted() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        String birthDateFormatted = dtf.format(this.birthDate);
+
+        return birthDateFormatted;
+    }
+    public String getHireDateFormatted() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        String hireDateFormatted = dtf.format(this.hireDate);
+
+        return hireDateFormatted;
     }
     
 }

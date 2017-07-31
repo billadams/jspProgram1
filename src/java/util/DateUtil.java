@@ -16,9 +16,17 @@ public class DateUtil {
         return today;
     }
     
-    public static String formatDateToString(LocalDate date) {
+    public static String formatDateToStringInput(LocalDate date) {
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dateFormatted = dtf.format(date);
+        
+        return dateFormatted;
+    }
+    
+        public static String formatDateToStringOutput(LocalDate date) {
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String dateFormatted = dtf.format(date);
         
         return dateFormatted;
