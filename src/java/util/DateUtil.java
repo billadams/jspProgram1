@@ -16,11 +16,19 @@ public class DateUtil {
         return today;
     }
     
-    public static String formatDateToStringInput(LocalDate date) {
+    public static String createFormattedDateInputString() {
+        
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String dateFormatted = dtf.format(date);
+        String dateFormatted = dtf.format(getDateToday());
         
+        return dateFormatted;
+    }
+    
+    public static String createFormattedDateInputString(LocalDate date) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dateFormatted = dtf.format(date);
+
         return dateFormatted;
     }
     

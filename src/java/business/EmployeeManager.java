@@ -44,17 +44,19 @@ public class EmployeeManager implements Serializable {
      */
     public ArrayList<Person> search(LocalDate searchDate, String searchCriteria) {
         ArrayList<Person> temp = new ArrayList<Person>();
-
+      
         if (searchCriteria.equals("before")) {
             for (int i = 0; i < employees.size(); i++) {
-                if (employees.get(i).getHireDate().isBefore(searchDate)) {
+                if (employees.get(i).getHireDate().isBefore(searchDate) ||
+                        employees.get(i).getHireDate().compareTo(searchDate) == 0) {
                     temp.add(employees.get(i));
                 }
             }
         }
         else {
             for (int i = 0; i < employees.size(); i++) {
-                if (employees.get(i).getHireDate().isAfter(searchDate)) {
+                if (employees.get(i).getHireDate().isAfter(searchDate) ||
+                        employees.get(i).getHireDate().compareTo(searchDate) == 0) {
                     temp.add(employees.get(i));
                 }
             }

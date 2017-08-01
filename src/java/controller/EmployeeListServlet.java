@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import util.DateUtil;
 
 /**
@@ -38,6 +39,11 @@ public class EmployeeListServlet extends HttpServlet {
         
         String url = "/index.jsp";
         ArrayList<String> messages = new ArrayList<>();
+        boolean hasSearched = false;
+        HttpSession session = request.getSession();
+        String dateInputString = null;
+        String listCount = null;
+
         
         // Get the current action
         String action = request.getParameter("action");
@@ -46,13 +52,18 @@ public class EmployeeListServlet extends HttpServlet {
             action = "defaultList";
         }
         
-        // Set up the default list of employees.
+        // Create the instances the application needs.
         EmployeeManager allEmployees = new EmployeeManager();
         ArrayList<Person> employeeList = new ArrayList<Person>();
-        employeeList = allEmployees.getEmployees();
         
         if (action.equals("defaultList")) {
             url = "/index.jsp";
+            
+            // Get the default list of employees.
+            employeeList = allEmployees.getEmployees();
+            
+            // Set the date input to today.
+            dateInputString = DateUtil.createFormattedDateInputString();
         }
         else if (action.equals("searchRequest")) {    
             String hireDateString = request.getParameter("searchDate");
@@ -67,28 +78,50 @@ public class EmployeeListServlet extends HttpServlet {
                 String searchCriteria = request.getParameter("optionsDate");
                 employeeList = allEmployees.search(hireDate, searchCriteria);
 
-                // Formate the date for output.
+                // Format the date for output.
                 DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
                 String searchDateFormatted = dtf.format(hireDate);
+                
+                // The user has searched for a date so set the
+                // hasSearched variable to true.
+                hasSearched = true;
+                
+                // Format the date the user entered in the date
+                // input for display back to the form.
+                dateInputString = DateUtil.createFormattedDateInputString(hireDate);
+                
+                // Get a count of all employees that are in the employeeList.
+                listCount = String.valueOf(employeeList.size());
 
                 request.setAttribute("searchCriteria", searchCriteria);
                 request.setAttribute("searchDateFormatted", searchDateFormatted);
+                request.setAttribute("listCount", listCount);
             }
             catch (Exception e) {
+                // Get the default list of employees.
+                employeeList = allEmployees.getEmployees();
+                
+                // Set the date input back to today.
+                dateInputString = DateUtil.createFormattedDateInputString();
+                
                 messages.add("Please enter a valid search date.");
                 request.setAttribute("messages", messages);
             }
         }
+        else if (action.equals("clearSearch")) {
+            // The user cleared the search so set the hasSearched variable
+            // to false and generate the default list of employees.
+            hasSearched = false;
+            employeeList = allEmployees.getEmployees();
+            
+            // Set the date input to today.
+            dateInputString = DateUtil.createFormattedDateInputString();
+        }
         
-        // Get a count of all employees that are in the employeeList.
-        String listCount = String.valueOf(employeeList.size());
+        // Persist the hasSearched variable.
+        session.setAttribute("hasSearched", hasSearched);
         
-        // Get today's date to set the default value of the date input.
-        LocalDate today = DateUtil.getDateToday();
-        String todayString = DateUtil.formatDateToStringInput(today);
-        
-        request.setAttribute("listCount", listCount);
-        request.setAttribute("todayString", todayString);
+        request.setAttribute("dateInputString", dateInputString);
         request.setAttribute("employeeList", employeeList);
         
         this.getServletContext().getRequestDispatcher(url)

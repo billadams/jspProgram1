@@ -12,14 +12,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="styles/bootstrap.css" type="text/css"/>
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
         <title>Employee List</title>
     </head>
     <body>
         <div class="container">
             <h1>Employee List</h1>
+            
             <c:if test="${searchDateFormatted != null}">
                 <div class="alert alert-success" role="alert">
-                    <p>Showing all employees hired ${searchCriteria} ${searchDateFormatted}.</p>
+                    <p>Showing all employees hired on or ${searchCriteria} ${searchDateFormatted}.</p>
                     <p>Records found: ${listCount}</p>
                 </div>
             </c:if>
@@ -36,7 +38,8 @@
                 </div>
             </c:if>  
             
-            <div class="row">
+            <div class="row results">
+                
                 <div class="col-md-8">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -63,12 +66,13 @@
                         </tbody>
                     </table>
                 </div>
+                
                 <div class="col-md-4">
                     <form action="EmployeeListServlet" method="post">
                         <input type="hidden" name="action" value="searchRequest">
                         <div class="form-group">
                             <label for="select-hire-date">Search hire date</label>
-                            <input type="date" name="searchDate" class="form-control" id="select-hire-date" value="${todayString}">
+                            <input type="date" name="searchDate" class="form-control" id="select-hire-date" value="${dateInputString}">
                         </div>
                         <div class="radio">
                             <label for="before-date">
@@ -86,6 +90,15 @@
                     </form>
                 </div>
             </div> <!-- end row -->
+            
+            <form action="EmployeeListServlet" method="post">
+                <input type="hidden" name="action" value="clearSearch">
+                <input class="btn btn-primary btn-block" type="submit" value="Clear Search"
+                    <c:if test="${hasSearched == false}">
+                        disabled
+                    </c:if> >
+            </form>
+            
         </div> <!-- end container -->
     </body>
 </html>
